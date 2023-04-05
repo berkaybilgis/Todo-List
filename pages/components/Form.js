@@ -17,6 +17,11 @@ function Form() {
     setText("");
   }, [todoItems]);
 
+  // silme işlemi yapan fonksiyon
+  const deleteTodo = (index) => {
+    setTodoItems((todoItems) => todoItems.filter((item, i) => i !== index));
+  };
+
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -38,7 +43,11 @@ function Form() {
                 <div className="view">
                   <input property="done" className="toggle" type="checkbox" />
                   <label property="text">{todo}</label>
-                  <button className="destroy" mv-action="delete(todo)"></button>
+                  <button
+                    className="destroy"
+                    mv-action="delete(todo)"
+                    onClick={() => deleteTodo(i)}
+                  ></button>
                 </div>
               </li>
             );
