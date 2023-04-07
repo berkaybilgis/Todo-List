@@ -3,8 +3,8 @@ import ContentFooter from "./ContentFooter";
 
 // başlangıçta hazır gelen veriler
 const initialState = [
-  { text: "Text is empty!", completed: false },
-  { text: "We have a great day today!", completed: false },
+  { text: "Do your homework!", completed: false },
+  { text: "Start creating a project today!", completed: false },
 ];
 
 function Form() {
