@@ -82,7 +82,6 @@ function Form() {
       {/* ContenFooter dosyasına proplar gönderildi */}
       {todoItems.length !== 0 && (
         <ContentFooter
-          filtered={filtered}
           setFiltered={setFiltered}
           setTodos={setTodoItems}
           todos={todoItems}

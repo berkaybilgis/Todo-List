@@ -1,12 +1,6 @@
-import { useState } from "react";
+import React from "react";
 
-function ContentFooter({
-  todosLength,
-  todos,
-  setTodos,
-  filtered,
-  setFiltered,
-}) {
+function ContentFooter({ todosLength, todos, setTodos, setFiltered }) {
   // All butonunun filtreleme fonksiyonu
   const allHandler = () => {
     setFiltered(todos);
