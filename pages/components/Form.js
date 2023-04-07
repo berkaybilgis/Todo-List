@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ContentFooter from "./ContentFooter";
 
+// başlangıçta hazır gelen veriler
 const initialState = [
   { text: "Text is empty!", completed: false },
   { text: "We have a great day today!", completed: false },
@@ -9,21 +10,29 @@ const initialState = [
 function Form() {
   const [todoItems, setTodoItems] = useState(initialState); // todo verilerinin depolandığı array
   const [text, setText] = useState(""); // yazılan verinin kayıt edilmesi için useState kullanıldı.
+  const [filtered, setFiltered] = useState(); // filtrelenmiş verilerin depolanması
 
   // inputa girilen veri submit edildiğinde listeye ekler
   const handleSubmit = (e) => {
     e.preventDefault();
     setTodoItems([...todoItems, { text: text, completed: false }]);
+    // setFiltered(todoItems);
   };
 
-  // submit işlemi yapıldığında inputun içeriğini temizle
+  // sayfa her yenilendiğinde todoItems içerisindeki verileri filtered'a atar
+  useEffect(() => {
+    setFiltered(todoItems);
+  }, []);
+
+  // todoItems her değiştiğinde inputun içini temizler ve filtered'a todoItems verisini ekler
   useEffect(() => {
     setText("");
+    setFiltered(todoItems);
   }, [todoItems]);
 
   // silme işlemi yapan fonksiyon
   const deleteTodo = (index) => {
-    setTodoItems((todoItems) => todoItems.filter((item, i) => i !== index));
+    setTodoItems(todoItems.filter((item, i) => i !== index));
   };
 
   // listede bir item işaretlenmesi durumunda üzerini çizip onaylandığını gösteren fonksiyon
@@ -49,21 +58,20 @@ function Form() {
       </form>
       {/* todo list map işlemi ile görüntülendi. */}
       <ul className="todo-list">
-        {todoItems &&
-          todoItems.map((todo, i) => {
+        {filtered &&
+          filtered.map((todo, i) => {
             return (
               <li className={todo.completed ? "completed" : ""} key={i}>
                 <div className="view">
                   <input
-                    property="done"
                     className="toggle"
                     type="checkbox"
                     onChange={() => toggleCompleted(i)}
+                    checked={todo.completed}
                   />
                   <label property="text">{todo.text}</label>
                   <button
                     className="destroy"
-                    mv-action="delete(todo)"
                     onClick={() => deleteTodo(i)}
                   ></button>
                 </div>
@@ -71,9 +79,15 @@ function Form() {
             );
           })}
       </ul>
-      {/* ContenFooter dosyasına todo listesindeki item sayısı gönderildi */}
+      {/* ContenFooter dosyasına proplar gönderildi */}
       {todoItems.length !== 0 && (
-        <ContentFooter todosLength={todoItems.length} />
+        <ContentFooter
+          filtered={filtered}
+          setFiltered={setFiltered}
+          setTodos={setTodoItems}
+          todos={todoItems}
+          todosLength={todoItems.length}
+        />
       )}
     </div>
   );
