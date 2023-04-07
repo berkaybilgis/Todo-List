@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
+import ContentFooter from "./ContentFooter";
 
-const initialState = ["Text is empty!"];
+const initialState = [
+  { text: "Text is empty!", completed: false },
+  { text: "We have a great day today!", completed: false },
+];
 
 function Form() {
   const [todoItems, setTodoItems] = useState(initialState); // todo verilerinin depolandığı array
@@ -9,7 +13,7 @@ function Form() {
   // inputa girilen veri submit edildiğinde listeye ekler
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodoItems([...todoItems, text]);
+    setTodoItems([...todoItems, { text: text, completed: false }]);
   };
 
   // submit işlemi yapıldığında inputun içeriğini temizle
@@ -22,8 +26,17 @@ function Form() {
     setTodoItems((todoItems) => todoItems.filter((item, i) => i !== index));
   };
 
+  // listede bir item işaretlenmesi durumunda üzerini çizip onaylandığını gösteren fonksiyon
+  const toggleCompleted = (index) => {
+    setTodoItems((todoItems) =>
+      todoItems.map((item, i) =>
+        i === index ? { ...item, completed: !item.completed } : item
+      )
+    );
+  };
+
   return (
-    <div>
+    <div className="main">
       <form onSubmit={(e) => handleSubmit(e)}>
         {/* input ile yazılan verilerin girileceği bölüm oluşturuldu. */}
         <input
@@ -39,10 +52,15 @@ function Form() {
         {todoItems &&
           todoItems.map((todo, i) => {
             return (
-              <li className="[if(done, 'completed')]" key={i}>
+              <li className={todo.completed ? "completed" : ""} key={i}>
                 <div className="view">
-                  <input property="done" className="toggle" type="checkbox" />
-                  <label property="text">{todo}</label>
+                  <input
+                    property="done"
+                    className="toggle"
+                    type="checkbox"
+                    onChange={() => toggleCompleted(i)}
+                  />
+                  <label property="text">{todo.text}</label>
                   <button
                     className="destroy"
                     mv-action="delete(todo)"
@@ -53,6 +71,10 @@ function Form() {
             );
           })}
       </ul>
+      {/* ContenFooter dosyasına todo listesindeki item sayısı gönderildi */}
+      {todoItems.length !== 0 && (
+        <ContentFooter todosLength={todoItems.length} />
+      )}
     </div>
   );
 }
