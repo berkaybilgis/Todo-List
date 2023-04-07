@@ -1,4 +1,6 @@
-{![image](https://user-images.githubusercontent.com/99799385/230665343-334f6dbf-3847-40af-b166-4303cc6f5e9c.png)}
+##Todo List App
+
+![image](https://user-images.githubusercontent.com/99799385/230665343-334f6dbf-3847-40af-b166-4303cc6f5e9c.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
