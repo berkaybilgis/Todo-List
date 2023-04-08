@@ -15,8 +15,9 @@ function Form() {
   // inputa girilen veri submit edildiğinde listeye ekler
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodoItems([...todoItems, { text: text, completed: false }]);
-    // setFiltered(todoItems);
+    text === ""
+      ? null
+      : setTodoItems([...todoItems, { text: text, completed: false }]);
   };
 
   // sayfa her yenilendiğinde todoItems içerisindeki verileri filtered'a atar
